@@ -89,6 +89,37 @@ export default function AudioWidget() {
         setCurrentSection(title);
     };
 
+    /* ---------- SECTION NAVIGATION ---------- */
+    const getCurrentSectionIndex = () => {
+        // Find the current section based on currentTime
+        for (let i = sections.length - 1; i >= 0; i--) {
+            if (currentTime >= sections[i].start) {
+                return i;
+            }
+        }
+        return 0;
+    };
+
+    const goToPreviousSection = () => {
+        const currentIndex = getCurrentSectionIndex();
+        if (currentIndex > 0) {
+            const prevSection = sections[currentIndex - 1];
+            jumpTo(prevSection.start, prevSection.title);
+        } else {
+            // If at first section, restart it
+            const firstSection = sections[0];
+            jumpTo(firstSection.start, firstSection.title);
+        }
+    };
+
+    const goToNextSection = () => {
+        const currentIndex = getCurrentSectionIndex();
+        if (currentIndex < sections.length - 1) {
+            const nextSection = sections[currentIndex + 1];
+            jumpTo(nextSection.start, nextSection.title);
+        }
+    };
+
     /* ---------- SPEED ---------- */
     const changeSpeed = (r: number) => {
         if (!audioRef.current) return;
@@ -188,11 +219,7 @@ export default function AudioWidget() {
                     <div className="flex justify-center items-center gap-4">
                         {/* Previous button */}
                         <button
-                            onClick={() => {
-                                if (audioRef.current) {
-                                    audioRef.current.currentTime = Math.max(0, currentTime - 10);
-                                }
-                            }}
+                            onClick={goToPreviousSection}
                             className="w-10 h-10 rounded-full hover:bg-gray-200 flex items-center justify-center transition-colors"
                         >
                             <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -217,11 +244,7 @@ export default function AudioWidget() {
                         </button>
                         {/* Next button */}
                         <button
-                            onClick={() => {
-                                if (audioRef.current) {
-                                    audioRef.current.currentTime = Math.min(duration, currentTime + 10);
-                                }
-                            }}
+                            onClick={goToNextSection}
                             className="w-10 h-10 rounded-full hover:bg-gray-200 flex items-center justify-center transition-colors"
                         >
                             <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
