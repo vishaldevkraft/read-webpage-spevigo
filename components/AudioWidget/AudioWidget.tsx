@@ -23,6 +23,7 @@ export default function AudioWidget() {
     const [currentTime, setCurrentTime] = useState(0);
     const [duration, setDuration] = useState(0);
     const [src, setSrc] = useState(audioUrl);
+    const [currentSection, setCurrentSection] = useState("Sections");
 
     /* ---------- FORMAT TIME ---------- */
     const format = (sec: number) => {
@@ -78,13 +79,14 @@ export default function AudioWidget() {
     };
 
     /* ---------- SECTION JUMP ---------- */
-    const jumpTo = (start: number) => {
+    const jumpTo = (start: number, title: string) => {
         if (!audioRef.current) return;
 
         audioRef.current.currentTime = start;
         audioRef.current.play();
         setPlaying(true);
         setShowSections(false);
+        setCurrentSection(title);
     };
 
     /* ---------- SPEED ---------- */
@@ -137,9 +139,10 @@ export default function AudioWidget() {
                         <div className="relative">
                             <button
                                 onClick={() => setShowSections(!showSections)}
-                                className="border w-full p-2 rounded text-left"
+                                className="border w-full p-2 rounded text-left flex justify-between items-center"
                             >
-                                Sections ▾
+                                <span>{currentSection}</span>
+                                <span>▾</span>
                             </button>
 
                             {showSections && (
@@ -147,7 +150,7 @@ export default function AudioWidget() {
                                     {sections.map((s) => (
                                         <div
                                             key={s.title}
-                                            onClick={() => jumpTo(s.start)}
+                                            onClick={() => jumpTo(s.start, s.title)}
                                             className="p-2 hover:bg-gray-100 cursor-pointer flex justify-between"
                                         >
                                             {s.title}
