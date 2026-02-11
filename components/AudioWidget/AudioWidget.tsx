@@ -134,7 +134,7 @@ export default function AudioWidget() {
 
                     {/* sections */}
                     {sectionIndex && (
-                        <div>
+                        <div className="relative">
                             <button
                                 onClick={() => setShowSections(!showSections)}
                                 className="border w-full p-2 rounded text-left"
@@ -143,7 +143,7 @@ export default function AudioWidget() {
                             </button>
 
                             {showSections && (
-                                <div className="border rounded mt-2 max-h-40 overflow-auto">
+                                <div className="absolute top-full left-0 right-0 mt-1 border rounded bg-white shadow-lg max-h-40 overflow-auto z-10">
                                     {sections.map((s) => (
                                         <div
                                             key={s.title}
