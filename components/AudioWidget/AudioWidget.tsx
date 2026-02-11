@@ -36,17 +36,28 @@ export default function AudioWidget() {
         const audio = audioRef.current;
         if (!audio) return;
 
-        const update = () => setCurrentTime(audio.currentTime);
-        const meta = () => setDuration(audio.duration);
+        const update = () => {
+            console.log('update')
+            setCurrentTime(audio.currentTime);
+        }
+        const meta = () => {
+            console.log('meta')
+            setDuration(audio.duration);
+        }
 
         audio.addEventListener("timeupdate", update);
         audio.addEventListener("loadedmetadata", meta);
+
+        if (audio.readyState >= 1) { // HAVE_METADATA or greater
+            console.log('Metadata already loaded, setting duration:', audio.duration);
+            setDuration(audio.duration);
+        }
 
         return () => {
             audio.removeEventListener("timeupdate", update);
             audio.removeEventListener("loadedmetadata", meta);
         };
-    }, []);
+    }, [src]);
 
     /* ---------- PLAY PAUSE ---------- */
     const toggle = () => {
@@ -157,7 +168,11 @@ export default function AudioWidget() {
                             max={duration || 0}
                             value={currentTime}
                             onChange={seek}
-                            className="w-full"
+                            // className="w-full"
+                            className="w-full h-1 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-green-500"
+                            style={{
+                                background: `linear-gradient(to right, rgb(34 197 94) 0%, rgb(34 197 94) ${(currentTime / (duration || 1)) * 100}%, rgb(229 231 235) ${(currentTime / (duration || 1)) * 100}%, rgb(229 231 235) 100%)`
+                            }}
                         />
 
                         <div className="flex justify-between text-xs text-gray-500">
