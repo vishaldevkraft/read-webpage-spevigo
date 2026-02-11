@@ -15,7 +15,6 @@ const highlightAudio = "https://objectstore.e2enetworks.net/voiceai/livekit/sess
 export default function AudioWidget() {
     const audioRef = useRef<HTMLAudioElement>(null);
 
-    const [isOpen, setIsOpen] = useState(false);
     const [playing, setPlaying] = useState(false);
     const [speed, setSpeed] = useState(1);
     const [showSections, setShowSections] = useState(false);
@@ -151,155 +150,139 @@ export default function AudioWidget() {
         <div className="fixed bottom-6 right-6 w-80 z-50">
             <audio ref={audioRef} src={src} />
 
-            {/* collapsed */}
-            {!isOpen && (
-                <div
-                    onClick={() => setIsOpen(true)}
-                    className="bg-white shadow-lg rounded-xl p-3 flex justify-between cursor-pointer"
-                >
-                    ▶ Listen to this page
-                </div>
-            )}
-
             {/* expanded */}
-            {isOpen && (
-                <div className="bg-white rounded-xl shadow-2xl p-4 space-y-4">
+            <div className="bg-white rounded-xl shadow-2xl p-4 space-y-4">
 
-                    {/* header */}
-                    <div className="flex justify-between items-center">
-                        <div className="flex items-center gap-2">
-                            <button onClick={() => setIsOpen(false)}>
-                                <CirclePause height={18} width={18} />
-                            </button>
-                            <span className="font-semibold">Listen to this page</span>
-                        </div>
-                        <span>{format(duration)}</span>
-                    </div>
 
-                    {/* sections */}
-                    {sectionIndex && (
-                        <div className="relative">
-                            <button
-                                onClick={() => setShowSections(!showSections)}
-                                className="border w-full p-2 rounded text-left flex justify-between items-center"
-                            >
-                                <span>{currentSection}</span>
-                                <span>▾</span>
-                            </button>
+                {/* header */}
+                <div className="flex justify-between items-center">
+                    <span className="font-semibold">Listen to this page</span>
+                    <span>{format(duration)}</span>
+                </div>
 
-                            {showSections && (
-                                <div className="absolute top-full left-0 right-0 mt-1 border rounded bg-white shadow-lg max-h-40 overflow-auto z-10">
-                                    {sections.map((s) => (
-                                        <div
-                                            key={s.title}
-                                            onClick={() => jumpTo(s.start, s.title)}
-                                            className="p-2 hover:bg-gray-100 cursor-pointer flex justify-between"
-                                        >
-                                            {s.title}
-                                            <span className="text-xs text-gray-500">
-                                                {format(s.start)}
-                                            </span>
-                                        </div>
-                                    ))}
-                                </div>
-                            )}
-                        </div>
-                    )}
-                    {/* progress */}
-                    <div>
-                        <input
-                            type="range"
-                            min={0}
-                            max={duration || 0}
-                            value={currentTime}
-                            onChange={seek}
-                            // className="w-full"
-                            className="w-full h-1 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-green-500"
-                            style={{
-                                background: `linear-gradient(to right, rgb(34 197 94) 0%, rgb(34 197 94) ${(currentTime / (duration || 1)) * 100}%, rgb(229 231 235) ${(currentTime / (duration || 1)) * 100}%, rgb(229 231 235) 100%)`
-                            }}
-                        />
-
-                        <div className="flex justify-between text-xs text-gray-500">
-                            <span>{format(currentTime)}</span>
-                            <span>{format(duration)}</span>
-                        </div>
-                    </div>
-
-                    {/* controls */}
-                    <div className="flex justify-center items-center gap-4">
-                        {/* Previous button */}
-                        {!isHighlightPlaying && <button
-                            onClick={goToPreviousSection}
-                            className="w-10 h-10 rounded-full hover:bg-gray-200 flex items-center justify-center transition-colors"
-                        >
-                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M10 12L6 8L10 4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                            </svg>
-                        </button>}
-                        {/* Play button  */}
+                {/* sections */}
+                {sectionIndex && (
+                    <div className="relative">
                         <button
-                            onClick={toggle}
-                            className="w-12 h-12 rounded-full bg-gray-200 hover:bg-gray-300 flex items-center justify-center transition-colors"
+                            onClick={() => setShowSections(!showSections)}
+                            className="border w-full p-2 rounded text-left flex justify-between items-center"
                         >
-                            {playing ? (
-                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M6 4H8V16H6V4Z" fill="currentColor" />
-                                    <path d="M12 4H14V16H12V4Z" fill="currentColor" />
-                                </svg>
-                            ) : (
-                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M6 4L15 10L6 16V4Z" fill="currentColor" />
-                                </svg>
-                            )}
+                            <span>{currentSection}</span>
+                            <span>▾</span>
                         </button>
-                        {/* Next button */}
-                        {!isHighlightPlaying && <button
-                            onClick={goToNextSection}
-                            className="w-10 h-10 rounded-full hover:bg-gray-200 flex items-center justify-center transition-colors"
-                        >
-                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M6 4L10 8L6 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                            </svg>
-                        </button>}
-                    </div>
 
-
-                    {/* playback speed and highlights */}
-                    <div className="space-y-3">
-                        {/* Playback Speed */}
-                        <span className="text-sm text-gray-700 font-medium mb-2 block">Playback Speed</span>
-                        <div className="flex items-center justify-between">
-                            {/* Highlights */}
-                            <div className="flex items-center justify-between">
-                                <button
-                                    onClick={playHighlight}
-                                    className="flex items-center gap-2 text-sm text-gray-700 hover:text-gray-900 transition-colors"
-                                >
-                                    <AudioLines height={16} width={16} className={`${isHighlightPlaying ? 'bg-green-500' : 'bg-gray-200'} rounded p-0.5 cursor-pointer`} />
-                                    <span className="text-xs">Highlights</span>
-                                </button>
-                            </div>
-                            <div className="flex ">
-                                {[0.5, 1, 1.5, 2].map((r) => (
-                                    <button
-                                        key={r}
-                                        onClick={() => changeSpeed(r)}
-                                        className={`px-2.5 py-1 text-xs font-medium transition-colors ${speed === r
-                                            ? "bg-green-500 text-white"
-                                            : "bg-gray-200 text-gray-600 hover:bg-gray-300"
-                                            }`}
+                        {showSections && (
+                            <div className="absolute top-full left-0 right-0 mt-1 border rounded bg-white shadow-lg max-h-40 overflow-auto z-10">
+                                {sections.map((s) => (
+                                    <div
+                                        key={s.title}
+                                        onClick={() => jumpTo(s.start, s.title)}
+                                        className="p-2 hover:bg-gray-100 cursor-pointer flex justify-between"
                                     >
-                                        {r}x
-                                    </button>
+                                        {s.title}
+                                        <span className="text-xs text-gray-500">
+                                            {format(s.start)}
+                                        </span>
+                                    </div>
                                 ))}
                             </div>
-                        </div>
+                        )}
+                    </div>
+                )}
+                {/* progress */}
+                <div>
+                    <input
+                        type="range"
+                        min={0}
+                        max={duration || 0}
+                        value={currentTime}
+                        onChange={seek}
+                        // className="w-full"
+                        className="w-full h-1 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-green-500"
+                        style={{
+                            background: `linear-gradient(to right, rgb(34 197 94) 0%, rgb(34 197 94) ${(currentTime / (duration || 1)) * 100}%, rgb(229 231 235) ${(currentTime / (duration || 1)) * 100}%, rgb(229 231 235) 100%)`
+                        }}
+                    />
 
-
+                    <div className="flex justify-between text-xs text-gray-500">
+                        <span>{format(currentTime)}</span>
+                        <span>{format(duration)}</span>
                     </div>
                 </div>
-            )}
+
+                {/* controls */}
+                <div className="flex justify-center items-center gap-4">
+                    {/* Previous button */}
+                    {!isHighlightPlaying && <button
+                        onClick={goToPreviousSection}
+                        className="w-10 h-10 rounded-full hover:bg-gray-200 flex items-center justify-center transition-colors"
+                    >
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M10 12L6 8L10 4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                        </svg>
+                    </button>}
+                    {/* Play button  */}
+                    <button
+                        onClick={toggle}
+                        className="w-12 h-12 rounded-full bg-gray-200 hover:bg-gray-300 flex items-center justify-center transition-colors"
+                    >
+                        {playing ? (
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M6 4H8V16H6V4Z" fill="currentColor" />
+                                <path d="M12 4H14V16H12V4Z" fill="currentColor" />
+                            </svg>
+                        ) : (
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M6 4L15 10L6 16V4Z" fill="currentColor" />
+                            </svg>
+                        )}
+                    </button>
+                    {/* Next button */}
+                    {!isHighlightPlaying && <button
+                        onClick={goToNextSection}
+                        className="w-10 h-10 rounded-full hover:bg-gray-200 flex items-center justify-center transition-colors"
+                    >
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M6 4L10 8L6 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                        </svg>
+                    </button>}
+                </div>
+
+
+                {/* playback speed and highlights */}
+                <div className="space-y-3">
+                    {/* Playback Speed */}
+                    <span className="text-sm text-gray-700 font-medium mb-2 block">Playback Speed</span>
+                    <div className="flex items-center justify-between">
+                        {/* Highlights */}
+                        <div className="flex items-center justify-between">
+                            <button
+                                onClick={playHighlight}
+                                className="flex items-center gap-2 text-sm text-gray-700 hover:text-gray-900 transition-colors"
+                            >
+                                <AudioLines height={16} width={16} className={`${isHighlightPlaying ? 'bg-green-500' : 'bg-gray-200'} rounded p-0.5 cursor-pointer`} />
+                                <span className="text-xs">Highlights</span>
+                            </button>
+                        </div>
+                        <div className="flex ">
+                            {[0.5, 1, 1.5, 2].map((r) => (
+                                <button
+                                    key={r}
+                                    onClick={() => changeSpeed(r)}
+                                    className={`px-2.5 py-1 text-xs font-medium transition-colors ${speed === r
+                                        ? "bg-green-500 text-white"
+                                        : "bg-gray-200 text-gray-600 hover:bg-gray-300"
+                                        }`}
+                                >
+                                    {r}x
+                                </button>
+                            ))}
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
         </div>
     );
 }
