@@ -24,6 +24,7 @@ export default function AudioWidget() {
     const [duration, setDuration] = useState(0);
     const [src, setSrc] = useState(audioUrl);
     const [currentSection, setCurrentSection] = useState("Sections");
+    const [isHighlightPlaying, setIsHighlightPlaying] = useState(false);
 
     /* ---------- FORMAT TIME ---------- */
     const format = (sec: number) => {
@@ -130,10 +131,20 @@ export default function AudioWidget() {
 
     /* ---------- HIGHLIGHT ---------- */
     const playHighlight = () => {
-        setSectionIndex(false);
-        setSrc(highlightAudio);
-        setTimeout(() => audioRef.current?.play(), 100);
-        setPlaying(true);
+        if (isHighlightPlaying) {
+            setIsHighlightPlaying(false);
+            setSectionIndex(true);
+            setSrc(audioUrl);
+            setPlaying(false);
+        }
+        else {
+
+            setSectionIndex(false);
+            setSrc(highlightAudio);
+            setTimeout(() => audioRef.current?.play(), 100);
+            setPlaying(true);
+            setIsHighlightPlaying(true);
+        }
     };
 
     return (
@@ -218,14 +229,14 @@ export default function AudioWidget() {
                     {/* controls */}
                     <div className="flex justify-center items-center gap-4">
                         {/* Previous button */}
-                        <button
+                        {!isHighlightPlaying && <button
                             onClick={goToPreviousSection}
                             className="w-10 h-10 rounded-full hover:bg-gray-200 flex items-center justify-center transition-colors"
                         >
                             <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M10 12L6 8L10 4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                             </svg>
-                        </button>
+                        </button>}
                         {/* Play button  */}
                         <button
                             onClick={toggle}
@@ -243,14 +254,14 @@ export default function AudioWidget() {
                             )}
                         </button>
                         {/* Next button */}
-                        <button
+                        {!isHighlightPlaying && <button
                             onClick={goToNextSection}
                             className="w-10 h-10 rounded-full hover:bg-gray-200 flex items-center justify-center transition-colors"
                         >
                             <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M6 4L10 8L6 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                             </svg>
-                        </button>
+                        </button>}
                     </div>
 
 
@@ -265,7 +276,7 @@ export default function AudioWidget() {
                                     onClick={playHighlight}
                                     className="flex items-center gap-2 text-sm text-gray-700 hover:text-gray-900 transition-colors"
                                 >
-                                    <AudioLines height={16} width={16} />
+                                    <AudioLines height={16} width={16} className={`${isHighlightPlaying ? 'bg-green-500' : 'bg-gray-200'} rounded p-0.5 cursor-pointer`} />
                                     <span className="text-xs">Highlights</span>
                                 </button>
                             </div>
