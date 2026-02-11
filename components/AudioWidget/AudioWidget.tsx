@@ -1,5 +1,7 @@
 "use client";
+import { AudioLines, CirclePause } from "lucide-react";
 import { useRef, useState, useEffect } from "react";
+
 
 const sections = [
     { title: "Introduction", start: 0 },
@@ -110,8 +112,12 @@ export default function AudioWidget() {
 
                     {/* header */}
                     <div className="flex justify-between items-center">
-                        <button onClick={() => setIsOpen(false)}>⏸</button>
-                        <span className="font-semibold">Listen to this page</span>
+                        <div className="flex items-center gap-2">
+                            <button onClick={() => setIsOpen(false)}>
+                                <CirclePause height={18} width={18} />
+                            </button>
+                            <span className="font-semibold">Listen to this page</span>
+                        </div>
                         <span>{format(duration)}</span>
                     </div>
 
@@ -161,31 +167,85 @@ export default function AudioWidget() {
                     </div>
 
                     {/* controls */}
-                    <div className="flex justify-center gap-6 text-xl">
-                        <button onClick={toggle}>{playing ? "⏸" : "▶"}</button>
+                    <div className="flex justify-center items-center gap-4">
+                        {/* Previous button */}
+                        <button
+                            onClick={() => {
+                                if (audioRef.current) {
+                                    audioRef.current.currentTime = Math.max(0, currentTime - 10);
+                                }
+                            }}
+                            className="w-10 h-10 rounded-full hover:bg-gray-200 flex items-center justify-center transition-colors"
+                        >
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M10 12L6 8L10 4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                            </svg>
+                        </button>
+                        {/* Play button  */}
+                        <button
+                            onClick={toggle}
+                            className="w-12 h-12 rounded-full bg-gray-200 hover:bg-gray-300 flex items-center justify-center transition-colors"
+                        >
+                            {playing ? (
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M6 4H8V16H6V4Z" fill="currentColor" />
+                                    <path d="M12 4H14V16H12V4Z" fill="currentColor" />
+                                </svg>
+                            ) : (
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M6 4L15 10L6 16V4Z" fill="currentColor" />
+                                </svg>
+                            )}
+                        </button>
+                        {/* Next button */}
+                        <button
+                            onClick={() => {
+                                if (audioRef.current) {
+                                    audioRef.current.currentTime = Math.min(duration, currentTime + 10);
+                                }
+                            }}
+                            className="w-10 h-10 rounded-full hover:bg-gray-200 flex items-center justify-center transition-colors"
+                        >
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M6 4L10 8L6 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                            </svg>
+                        </button>
                     </div>
 
-                    {/* speed */}
-                    <div className="flex gap-2">
-                        {[0.5, 1, 1.5, 2].map((r) => (
-                            <button
-                                key={r}
-                                onClick={() => changeSpeed(r)}
-                                className={`px-3 py-1 rounded ${speed === r ? "bg-green-400" : "bg-gray-200"
-                                    }`}
-                            >
-                                {r}x
-                            </button>
-                        ))}
-                    </div>
 
-                    {/* highlight */}
-                    <button
-                        onClick={playHighlight}
-                        className="bg-green-100 p-2 rounded w-full"
-                    >
-                        Highlights
-                    </button>
+                    {/* playback speed and highlights */}
+                    <div className="space-y-3">
+                        {/* Playback Speed */}
+                        <span className="text-sm text-gray-700 font-medium mb-2 block">Playback Speed</span>
+                        <div className="flex items-center justify-between">
+                            {/* Highlights */}
+                            <div className="flex items-center justify-between">
+                                <button
+                                    onClick={playHighlight}
+                                    className="flex items-center gap-2 text-sm text-gray-700 hover:text-gray-900 transition-colors"
+                                >
+                                    <AudioLines height={16} width={16} />
+                                    <span className="text-xs">Highlights</span>
+                                </button>
+                            </div>
+                            <div className="flex ">
+                                {[0.5, 1, 1.5, 2].map((r) => (
+                                    <button
+                                        key={r}
+                                        onClick={() => changeSpeed(r)}
+                                        className={`px-2.5 py-1 text-xs font-medium transition-colors ${speed === r
+                                            ? "bg-green-500 text-white"
+                                            : "bg-gray-200 text-gray-600 hover:bg-gray-300"
+                                            }`}
+                                    >
+                                        {r}x
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+
+
+                    </div>
                 </div>
             )}
         </div>
