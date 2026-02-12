@@ -1,5 +1,5 @@
 "use client";
-import { AudioLines, CirclePause } from "lucide-react";
+import { AudioLines, CirclePause, CirclePlay } from "lucide-react";
 import { useRef, useState, useEffect } from "react";
 
 
@@ -156,7 +156,14 @@ export default function AudioWidget() {
 
                 {/* header */}
                 <div className="flex justify-between items-center">
-                    <span className="font-semibold">Listen to this page</span>
+                    <div className="flex items-center gap-2">
+                        {playing ? (
+                            <CirclePause className="w-6 h-6 text-green-500" />
+                        ) : (
+                            <CirclePlay className="w-6 h-6 text-green-500" />
+                        )}
+                        <span className="font-semibold">Listen to this page</span>
+                    </div>
                     <span>{format(duration)}</span>
                 </div>
 
@@ -260,7 +267,10 @@ export default function AudioWidget() {
                                 onClick={playHighlight}
                                 className="flex items-center gap-2 text-sm text-gray-700 hover:text-gray-900 transition-colors"
                             >
-                                <AudioLines height={16} width={16} className={`${isHighlightPlaying ? 'bg-green-500' : 'bg-gray-200'} rounded p-0.5 cursor-pointer`} />
+                                <div className={`${isHighlightPlaying ? 'bg-green-500' : 'bg-green-100'} rounded p-1.5`}>
+                                    <AudioLines height={16} width={16} className={isHighlightPlaying ? 'text-white' : 'text-green-600'} />
+                                </div>
+                                {/* <AudioLines height={16} width={16} className={`${isHighlightPlaying ? 'bg-green-500' : 'bg-gray-200'} rounded p-0.5 cursor-pointer`} /> */}
                                 <span className="text-xs">Highlights</span>
                             </button>
                         </div>
