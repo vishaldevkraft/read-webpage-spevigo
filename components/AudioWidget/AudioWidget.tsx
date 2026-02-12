@@ -10,7 +10,7 @@ const sections = [
     { title: "Chapter 3", start: 200 },
 ];
 const audioUrl = "https://maksoodappli.s3.ap-south-1.amazonaws.com/hcp-ishan.mp3";
-const highlightAudio = "https://objectstore.e2enetworks.net/voiceai/livekit/session-697b400cfa08ff65b077c099-aa768e61-32eb-482d-81b2-cd52ae3a88c3.ogg";
+const highlightAudio = "https://siteglobalpdf.s3.ap-south-1.amazonaws.com/SPEVIGO_Effectiveness_Dosing_and_Safety_Risks.mp3";
 
 export default function AudioWidget() {
     const audioRef = useRef<HTMLAudioElement>(null);
