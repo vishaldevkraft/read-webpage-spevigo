@@ -9,10 +9,10 @@ import { useRef, useState, useEffect } from "react";
 
 
 const sections = [
-    { title: "Introduction", start: 0 },
-    { title: "Chapter 1", start: 40 },
-    { title: "Chapter 2", start: 120 },
-    { title: "Chapter 3", start: 200 },
+    { title: "Study Design & Efficacy", start: 0 },
+    { title: "Dosing, Indication, & Contraindications", start: 40 },
+    { title: "Warnings & Precautions", start: 120 },
+    { title: "Adverse Reactions", start: 200 },
 ];
 const audioUrl = "https://maksoodappli.s3.ap-south-1.amazonaws.com/hcp-ishan.mp3";
 const highlightAudio = "https://siteglobalpdf.s3.ap-south-1.amazonaws.com/SPEVIGO_Effectiveness_Dosing_and_Safety_Risks.mp3";
@@ -181,7 +181,7 @@ export default function AudioWidget() {
             <audio ref={audioRef} src={src} />
 
             {/* Full width responsive layout */}
-            <div className={` rounded-lg p-3 space-y-2.5 w-full h-full bg-stone-100`}>
+            <div className={` p-3 space-y-2.5 w-full h-full bg-stone-100`}>
 
 
                 {/* header */}
@@ -217,12 +217,14 @@ export default function AudioWidget() {
                                             <div
                                                 key={s.title}
                                                 onClick={() => jumpTo(s.start, s.title)}
-                                                className="p-2 hover:bg-gray-100 cursor-pointer flex justify-between items-start gap-2 text-sm"
+                                                className="p-2 hover:bg-gray-100 cursor-pointer text-xs"
                                             >
-                                                <span className="truncate flex-1 min-w-0">{s.title}</span>
-                                                <span className="text-xs text-gray-500 shrink-0">
-                                                    {format(s.start)}
-                                                </span>
+                                                <div className="flex justify-between items-start gap-2">
+                                                    <span className="flex-1 min-w-0 break-words">{s.title}</span>
+                                                    <span className="text-xs text-gray-500 shrink-0">
+                                                        {format(s.start)}
+                                                    </span>
+                                                </div>
                                             </div>
                                         ))}
                                     </div>
@@ -231,22 +233,26 @@ export default function AudioWidget() {
                         )}
                         {/* progress */}
                         <div>
-                            <input
-                                type="range"
-                                min={0}
-                                max={duration || 0}
-                                value={currentTime}
-                                onChange={seek}
-                                // className="w-full"
-                                className="w-full h-1 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-green-500"
-                                style={{
-                                    background: `linear-gradient(to right, rgb(34 197 94) 0%, rgb(34 197 94) ${(currentTime / (duration || 1)) * 100}%, rgb(229 231 235) ${(currentTime / (duration || 1)) * 100}%, rgb(229 231 235) 100%)`
-                                }}
-                            />
+                            <div className="w-full h-2 bg-gray-200 rounded-full overflow-hidden relative">
+                                <div
+                                    className="h-full bg-green-500 rounded-full transition-all duration-100"
+                                    style={{
+                                        width: `${(currentTime / (duration || 1)) * 100}%`
+                                    }}
+                                />
+                                <input
+                                    type="range"
+                                    min={0}
+                                    max={duration || 0}
+                                    value={currentTime}
+                                    onChange={seek}
+                                    className="absolute top-0 left-0 w-full h-full opacity-0 cursor-pointer"
+                                />
+                            </div>
 
                             <div className="flex justify-between text-xs text-gray-500">
                                 <span>{format(currentTime)}</span>
-                                <span>{format(duration)}</span>
+                                <span>{Math.round((currentTime / (duration || 1)) * 100)}%</span>
                             </div>
                         </div>
 
