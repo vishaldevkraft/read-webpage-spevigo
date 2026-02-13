@@ -9,10 +9,10 @@ import { useRef, useState, useEffect } from "react";
 
 
 const sections = [
-    { title: "Study Design & Efficacy", start: 0 },
-    { title: "Dosing, Indication, & Contraindications", start: 40 },
-    { title: "Warnings & Precautions", start: 120 },
-    { title: "Adverse Reactions", start: 200 },
+    { title: "Study Design & Efficacy", start: 0 },      // Chapter 1: 2:18
+    { title: "Dosing, Indication, & Contraindications", start: 138 },  // Chapter 2: 3:16
+    { title: "Warnings & Precautions", start: 196 },       // Chapter 3: 4:45
+    { title: "Adverse Reactions", start: 285 },
 ];
 const audioUrl = "https://maksoodappli.s3.ap-south-1.amazonaws.com/hcp-ishan.mp3";
 const highlightAudio = "https://siteglobalpdf.s3.ap-south-1.amazonaws.com/SPEVIGO_Effectiveness_Dosing_and_Safety_Risks.mp3";
@@ -192,7 +192,7 @@ export default function AudioWidget() {
                         ) : (
                             <Play className="w-5 h-5" />
                         )}
-                        <span className="font-semibold text-sm">Listen to this page</span>
+                        <span className="font-semibold text-sm text-gray-900">Listen to this page</span>
                     </div>
                     <span className="text-xs text-gray-600">{format(duration)}</span>
                 </div>
@@ -225,7 +225,7 @@ export default function AudioWidget() {
                                                 className="p-2 hover:bg-gray-100 cursor-pointer text-xs"
                                             >
                                                 <div className="flex justify-between items-start gap-2">
-                                                    <span className="flex-1 min-w-0 break-words">{s.title}</span>
+                                                    <span className="flex-1 min-w-0 break-words text-gray-900">{s.title}</span>
                                                     <span className="text-xs text-gray-500 shrink-0">
                                                         {format(s.start)}
                                                     </span>
