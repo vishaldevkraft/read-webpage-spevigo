@@ -205,15 +205,20 @@ export default function AudioWidget() {
                             <div className="relative">
                                 <button
                                     onClick={() => setShowSections(!showSections)}
-                                    className="border w-full p-2 rounded text-left flex justify-between items-center text-sm gap-2"
+                                    className="border w-full p-2 rounded text-left flex justify-between items-start gap-2"
                                 >
-                                    <span className="truncate flex-1 min-w-0">{currentSection}</span>
-                                    <span className="shrink-0">▾</span>
+                                    <div className="flex-1 min-w-0">
+                                        <div className="text-xs text-gray-600 mb-1">
+                                            Section {getCurrentSectionIndex() + 1} of {sections.length}
+                                        </div>
+                                        <div className="text-sm font-medium truncate">{currentSection}</div>
+                                    </div>
+                                    <span className="shrink-0 mt-1">▾</span>
                                 </button>
 
                                 {showSections && (
                                     <div className="absolute top-full left-0 right-0 mt-1 border rounded bg-white shadow-lg max-h-36 overflow-auto z-10">
-                                        {sections.map((s) => (
+                                        {sections.map((s, index) => (
                                             <div
                                                 key={s.title}
                                                 onClick={() => jumpTo(s.start, s.title)}
