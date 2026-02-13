@@ -134,10 +134,10 @@ export default function AudioWidget() {
             setIsHighlightPlaying(false);
             setSectionIndex(true);
             setSrc(audioUrl);
-            setPlaying(false);
+            setPlaying(true);
+            setTimeout(() => audioRef.current?.play(), 100);
         }
         else {
-
             setSectionIndex(false);
             setSrc(highlightAudio);
             setTimeout(() => audioRef.current?.play(), 100);
