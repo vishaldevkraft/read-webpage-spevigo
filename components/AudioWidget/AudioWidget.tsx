@@ -211,7 +211,7 @@ export default function AudioWidget() {
                                         <div className="text-xs text-gray-600 mb-1">
                                             Section {getCurrentSectionIndex() + 1} of {sections.length}
                                         </div>
-                                        <div className="text-sm font-medium truncate">{currentSection}</div>
+                                        <div className="text-sm font-medium truncate text-gray-900">{currentSection}</div>
                                     </div>
                                     <span className="shrink-0 mt-1">▾</span>
                                 </button>
