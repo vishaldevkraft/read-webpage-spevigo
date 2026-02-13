@@ -269,7 +269,7 @@ export default function AudioWidget() {
                                 className="w-9 h-9 rounded-full hover:bg-gray-200 flex items-center justify-center transition-colors"
                             >
                                 <svg width="15" height="15" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M11 13L5 8L11 3" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" />
+                                    <path d="M11 13L5 8L11 3" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                                 </svg>
                             </button>}
                             {/* Play button  */}
@@ -289,7 +289,7 @@ export default function AudioWidget() {
                                 className="w-9 h-9 rounded-full hover:bg-gray-200 flex items-center justify-center transition-colors"
                             >
                                 <svg width="15" height="15" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M5 3L11 8L5 13" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" />
+                                    <path d="M5 3L11 8L5 13" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                                 </svg>
                             </button>}
                         </div>
