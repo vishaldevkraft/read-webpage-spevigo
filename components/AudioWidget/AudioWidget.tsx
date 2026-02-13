@@ -24,6 +24,7 @@ export default function AudioWidget() {
     const [src, setSrc] = useState(audioUrl);
     const [currentSection, setCurrentSection] = useState("Sections");
     const [isHighlightPlaying, setIsHighlightPlaying] = useState(false);
+    const [showPlayerUI, setShowPlayerUI] = useState(false);
 
     /* ---------- FORMAT TIME ---------- */
     const format = (sec: number) => {
@@ -61,7 +62,30 @@ export default function AudioWidget() {
     }, [src]);
 
     /* ---------- PLAY PAUSE ---------- */
-    const toggle = () => {
+    // Toggle from header - controls both UI visibility and playback
+    const toggleFromHeader = () => {
+        if (!audioRef.current) return;
+
+        if (playing) {
+            // If playing, pause and hide UI
+            audioRef.current.pause();
+            setPlaying(false);
+            setShowPlayerUI(false);
+        } else {
+            // If not playing, play and show UI
+            if (!showPlayerUI) {
+                setShowPlayerUI(true);
+                audioRef.current.play();
+                setPlaying(true);
+            }
+            else {
+                setShowPlayerUI(false);
+            }
+        }
+    };
+
+    // Toggle from player controls - only controls playback, keeps UI visible
+    const togglePlayback = () => {
         if (!audioRef.current) return;
 
         if (playing) audioRef.current.pause();
@@ -85,6 +109,7 @@ export default function AudioWidget() {
         audioRef.current.currentTime = start;
         audioRef.current.play();
         setPlaying(true);
+        setShowPlayerUI(true);
         setShowSections(false);
         setCurrentSection(title);
     };
@@ -155,7 +180,7 @@ export default function AudioWidget() {
 
 
                 {/* header */}
-                <div className="flex justify-between items-center gap-1" onClick={!playing ? toggle : toggle} style={{ cursor: 'pointer' }}>
+                <div className="flex justify-between items-center gap-1" onClick={toggleFromHeader} style={{ cursor: 'pointer' }}>
                     <div className="flex items-center gap-1.5">
                         {playing ? (
                             <CirclePause className="w-5 h-5 text-green-500" />
@@ -167,8 +192,8 @@ export default function AudioWidget() {
                     <span className="text-xs text-gray-600">{format(duration)}</span>
                 </div>
 
-                {/* Show full player only when playing */}
-                {playing && (
+                {/* Show full player only when UI is visible */}
+                {showPlayerUI && (
                     <>
                         {/* sections */}
                         {sectionIndex && (
@@ -233,7 +258,7 @@ export default function AudioWidget() {
                             </button>}
                             {/* Play button  */}
                             <button
-                                onClick={toggle}
+                                onClick={togglePlayback}
                                 className="w-11 h-11 rounded-full bg-gray-200 hover:bg-gray-300 flex items-center justify-center transition-colors"
                             >
                                 {playing ? (
