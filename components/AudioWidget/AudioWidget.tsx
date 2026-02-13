@@ -155,7 +155,7 @@ export default function AudioWidget() {
 
 
                 {/* header */}
-                <div className="flex justify-between items-center gap-1" onClick={!playing ? toggle : toggle} style={{ cursor: !playing ? 'pointer' : 'default' }}>
+                <div className="flex justify-between items-center gap-1" onClick={!playing ? toggle : toggle} style={{ cursor: 'pointer' }}>
                     <div className="flex items-center gap-1.5">
                         {playing ? (
                             <CirclePause className="w-5 h-5 text-green-500" />
