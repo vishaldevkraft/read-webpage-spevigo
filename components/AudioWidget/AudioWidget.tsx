@@ -1,4 +1,9 @@
 "use client";
+import { Highlights } from "@/public/Highlights";
+import { Pause } from "@/public/Pause";
+import { Play } from "@/public/Play";
+import { PlayerPause } from "@/public/PlayerPause";
+import { PlayerPlay } from "@/public/PlayerPlay";
 import { AudioLines, CirclePause, CirclePlay } from "lucide-react";
 import { useRef, useState, useEffect } from "react";
 
@@ -176,16 +181,16 @@ export default function AudioWidget() {
             <audio ref={audioRef} src={src} />
 
             {/* Full width responsive layout */}
-            <div className="bg-white rounded-lg p-3 space-y-2.5 w-full h-full">
+            <div className={` rounded-lg p-3 space-y-2.5 w-full h-full bg-stone-100`}>
 
 
                 {/* header */}
                 <div className="flex justify-between items-center gap-1" onClick={toggleFromHeader} style={{ cursor: 'pointer' }}>
                     <div className="flex items-center gap-1.5">
                         {playing ? (
-                            <CirclePause className="w-5 h-5 text-green-500" />
+                            <Pause className="w-5 h-5 text-teal-950" />
                         ) : (
-                            <CirclePlay className="w-5 h-5 text-green-500" />
+                            <Play className="w-5 h-5" />
                         )}
                         <span className="font-semibold text-sm">Listen to this page</span>
                     </div>
@@ -253,23 +258,18 @@ export default function AudioWidget() {
                                 className="w-9 h-9 rounded-full hover:bg-gray-200 flex items-center justify-center transition-colors"
                             >
                                 <svg width="15" height="15" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M10 12L6 8L10 4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                                    <path d="M11 13L5 8L11 3" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" />
                                 </svg>
                             </button>}
                             {/* Play button  */}
                             <button
                                 onClick={togglePlayback}
-                                className="w-11 h-11 rounded-full bg-gray-200 hover:bg-gray-300 flex items-center justify-center transition-colors"
+                                className="w-11 h-11 rounded-full flex items-center justify-center transition-colors"
                             >
                                 {playing ? (
-                                    <svg width="19" height="19" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M6 4H8V16H6V4Z" fill="currentColor" />
-                                        <path d="M12 4H14V16H12V4Z" fill="currentColor" />
-                                    </svg>
+                                    <PlayerPause height={32} width={32} className="shadow rounded-full" />
                                 ) : (
-                                    <svg width="19" height="19" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M6 4L15 10L6 16V4Z" fill="currentColor" />
-                                    </svg>
+                                    <PlayerPlay height={32} width={32} className="shadow rounded-full" />
                                 )}
                             </button>
                             {/* Next button */}
@@ -278,7 +278,7 @@ export default function AudioWidget() {
                                 className="w-9 h-9 rounded-full hover:bg-gray-200 flex items-center justify-center transition-colors"
                             >
                                 <svg width="15" height="15" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M6 4L10 8L6 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                                    <path d="M5 3L11 8L5 13" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" />
                                 </svg>
                             </button>}
                         </div>
@@ -294,10 +294,10 @@ export default function AudioWidget() {
                                 {/* Highlights Button */}
                                 <button
                                     onClick={playHighlight}
-                                    className="flex items-center gap-1.5 text-sm text-gray-700 hover:text-gray-900 transition-colors px-2 py-1.5 hover:bg-gray-50 rounded shrink-0"
+                                    className="flex items-center gap-1.5 text-sm text-gray-700  transition-colors px-2 py-1.5 rounded shrink-0"
                                 >
-                                    <div className={`${isHighlightPlaying ? 'bg-green-500' : 'bg-green-100'} rounded p-1`}>
-                                        <AudioLines height={12} width={12} className={isHighlightPlaying ? 'text-white' : 'text-green-600'} />
+                                    <div >
+                                        <Highlights height={24} width={24} className={`${isHighlightPlaying ? '' : 'bg-stone-100'} cursor-pointer`} />
                                     </div>
                                     <span className="text-xs font-medium">Highlights</span>
                                 </button>
