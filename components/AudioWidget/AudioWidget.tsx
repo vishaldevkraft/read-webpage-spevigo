@@ -185,20 +185,20 @@ export default function AudioWidget() {
             <audio ref={audioRef} src={src} />
 
             {/* Full width responsive layout */}
-            <div className={`  space-y-2.5 w-full h-full ${showPlayerUI ? 'bg-stone-100 p-3' : 'bg-white p-0'}`}>
+            <div className={`  space-y-2.5 w-full h-full ${showPlayerUI ? 'bg-[#F6F5F3] p-3' : 'bg-white p-0'}`}>
 
 
                 {/* header */}
-                <div className={`flex justify-between items-center gap-1 ${!showPlayerUI ? 'bg-stone-100 p-3' : ''}`} onClick={toggleFromHeader} style={{ cursor: 'pointer' }}>
+                <div className={`flex justify-between items-center gap-1 ${!showPlayerUI ? 'bg-[#F6F5F3] p-3' : ''}`} onClick={toggleFromHeader} style={{ cursor: 'pointer' }}>
                     <div className="flex items-center gap-1.5">
                         {playing ? (
                             <Pause className="w-5 h-5 text-teal-950" />
                         ) : (
                             <Play className="w-5 h-5" />
                         )}
-                        <span className="font-semibold text-sm text-gray-900">Listen to this page</span>
+                        <span className="font-semibold text-sm text-black">Listen to this page</span>
                     </div>
-                    <span className="text-xs text-gray-600">{format(duration)}</span>
+                    <span className="text-xs text-black font-bold">{(duration / 60).toFixed(1)} min</span>
                 </div>
 
                 {/* Show full player only when UI is visible */}
@@ -209,7 +209,7 @@ export default function AudioWidget() {
                             <div className="relative">
                                 <button
                                     onClick={() => setShowSections(!showSections)}
-                                    className="border w-full p-2 rounded text-left flex justify-between items-start gap-2"
+                                    className="border border-[#B7B6B2] w-full p-2 text-left flex justify-between items-start gap-2 bg-white"
                                 >
                                     <div className="flex-1 min-w-0">
                                         <div className="text-xs text-gray-600 mb-1">
