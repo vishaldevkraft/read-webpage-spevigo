@@ -2,8 +2,10 @@
 import { Highlights } from "@/public/Highlights";
 import { Pause } from "@/public/Pause";
 import { Play } from "@/public/Play";
+import { PlayerNext } from "@/public/PlayerNext";
 import { PlayerPause } from "@/public/PlayerPause";
 import { PlayerPlay } from "@/public/PlayerPlay";
+import { PlayerPrevious } from "@/public/PlayerPrevious";
 import { AudioLines, CirclePause, CirclePlay } from "lucide-react";
 import { useRef, useState, useEffect } from "react";
 
@@ -270,9 +272,8 @@ export default function AudioWidget() {
                                 onClick={goToPreviousSection}
                                 className="w-9 h-9 rounded-full hover:bg-gray-200 flex items-center justify-center transition-colors"
                             >
-                                <svg width="15" height="15" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M11 13L5 8L11 3" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                                </svg>
+
+                                <PlayerPrevious height={15} width={15} />
                             </button>}
                             {/* Play button  */}
                             <button
@@ -290,9 +291,7 @@ export default function AudioWidget() {
                                 onClick={goToNextSection}
                                 className="w-9 h-9 rounded-full hover:bg-gray-200 flex items-center justify-center transition-colors"
                             >
-                                <svg width="15" height="15" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M5 3L11 8L5 13" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                                </svg>
+                                <PlayerNext height={15} width={15} />
                             </button>}
                         </div>
 
@@ -303,30 +302,30 @@ export default function AudioWidget() {
                             <span className="text-xs text-gray-700 font-medium block">Playback Speed</span>
 
                             {/* Controls Row - Speed Buttons + Highlights */}
-                            <div className="flex items-center gap-2">
+                            <div className="flex items-center gap-1">
                                 {/* Speed Controls */}
-                                <div className="flex gap-1 flex-1">
+                                <div className={`flex flex-5 ${showSpeedOptions ? "bg-[#E5E3DE]" : ""} h-6 items-center`}>
                                     {showSpeedOptions ? (
                                         /* Expanded: show all speed options */
                                         [0.5, 1, 1.5, 2].map((r) => (
                                             <button
                                                 key={r}
                                                 onClick={() => changeSpeed(r)}
-                                                className={`flex-1 px-2 py-1.5 text-xs font-medium transition-colors rounded ${speed === r
-                                                    ? "bg-green-500 text-white"
-                                                    : "bg-gray-200 text-gray-600 hover:bg-gray-300"
+                                                className={`flex-1 cursor-pointer text-xs font-sm transition-colors justify-center py-0.5 px-1 ${speed === r
+                                                    ? "bg-[#00E47C]  mx-0.5"
+                                                    : " text-black "
                                                     }`}
                                             >
-                                                {r}x
+                                                {r.toFixed(1)}x
                                             </button>
                                         ))
                                     ) : (
                                         /* Collapsed: show only selected speed */
                                         <button
                                             onClick={() => setShowSpeedOptions(true)}
-                                            className="px-2 py-1.5 text-xs font-medium rounded bg-green-500 text-white transition-colors"
+                                            className="px-2 h-full text-xs font-sm border border-gray-200 bg-[#E5E3DE] text-black hover:bg-[#E5E3DE] cursor-pointer transition-colors"
                                         >
-                                            {speed}x
+                                            {speed.toFixed(1)}x
                                         </button>
                                     )}
                                 </div>
@@ -334,12 +333,12 @@ export default function AudioWidget() {
                                 {/* Highlights Button */}
                                 <button
                                     onClick={playHighlight}
-                                    className="flex items-center gap-1.5 text-sm text-gray-700  transition-colors px-2 py-1.5 rounded shrink-0"
+                                    className="flex flex-1 items-center gap-1.5 text-sm text-gray-700  transition-colors px-2 py-1.5 rounded shrink-0"
                                 >
                                     <div >
                                         <Highlights height={24} width={24} className={`${isHighlightPlaying ? '' : 'bg-stone-100'} cursor-pointer`} />
                                     </div>
-                                    <span className="text-xs font-medium">Highlights</span>
+                                    <span className=" text-sm font-normal">Highlights</span>
                                 </button>
                             </div>
                         </div>
