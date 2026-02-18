@@ -29,7 +29,7 @@ export default function AudioWidget() {
     const [currentTime, setCurrentTime] = useState(0);
     const [duration, setDuration] = useState(0);
     const [src, setSrc] = useState(audioUrl);
-    const [currentSection, setCurrentSection] = useState("Sections");
+    const [currentSection, setCurrentSection] = useState(sections[0].title);
     const [isHighlightPlaying, setIsHighlightPlaying] = useState(false);
     const [showPlayerUI, setShowPlayerUI] = useState(false);
     const [showSpeedOptions, setShowSpeedOptions] = useState(false);
