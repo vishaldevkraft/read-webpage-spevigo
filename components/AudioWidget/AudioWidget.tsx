@@ -30,6 +30,7 @@ export default function AudioWidget() {
     const [currentSection, setCurrentSection] = useState("Sections");
     const [isHighlightPlaying, setIsHighlightPlaying] = useState(false);
     const [showPlayerUI, setShowPlayerUI] = useState(false);
+    const [showSpeedOptions, setShowSpeedOptions] = useState(false);
 
     /* ---------- FORMAT TIME ---------- */
     const format = (sec: number) => {
@@ -156,6 +157,7 @@ export default function AudioWidget() {
 
         audioRef.current.playbackRate = r;
         setSpeed(r);
+        setShowSpeedOptions(false);
     };
 
     /* ---------- HIGHLIGHT ---------- */
@@ -300,8 +302,35 @@ export default function AudioWidget() {
                             {/* Playback Speed Label */}
                             <span className="text-xs text-gray-700 font-medium block">Playback Speed</span>
 
-                            {/* Controls Row - Highlights + Speed Buttons */}
+                            {/* Controls Row - Speed Buttons + Highlights */}
                             <div className="flex items-center gap-2">
+                                {/* Speed Controls */}
+                                <div className="flex gap-1 flex-1">
+                                    {showSpeedOptions ? (
+                                        /* Expanded: show all speed options */
+                                        [0.5, 1, 1.5, 2].map((r) => (
+                                            <button
+                                                key={r}
+                                                onClick={() => changeSpeed(r)}
+                                                className={`flex-1 px-2 py-1.5 text-xs font-medium transition-colors rounded ${speed === r
+                                                    ? "bg-green-500 text-white"
+                                                    : "bg-gray-200 text-gray-600 hover:bg-gray-300"
+                                                    }`}
+                                            >
+                                                {r}x
+                                            </button>
+                                        ))
+                                    ) : (
+                                        /* Collapsed: show only selected speed */
+                                        <button
+                                            onClick={() => setShowSpeedOptions(true)}
+                                            className="px-2 py-1.5 text-xs font-medium rounded bg-green-500 text-white transition-colors"
+                                        >
+                                            {speed}x
+                                        </button>
+                                    )}
+                                </div>
+
                                 {/* Highlights Button */}
                                 <button
                                     onClick={playHighlight}
@@ -312,22 +341,6 @@ export default function AudioWidget() {
                                     </div>
                                     <span className="text-xs font-medium">Highlights</span>
                                 </button>
-
-                                {/* Speed Controls */}
-                                <div className="flex gap-1 flex-1">
-                                    {[0.5, 1, 1.5, 2].map((r) => (
-                                        <button
-                                            key={r}
-                                            onClick={() => changeSpeed(r)}
-                                            className={`flex-1 px-2 py-1.5 text-xs font-medium transition-colors rounded ${speed === r
-                                                ? "bg-green-500 text-white"
-                                                : "bg-gray-200 text-gray-600 hover:bg-gray-300"
-                                                }`}
-                                        >
-                                            {r}x
-                                        </button>
-                                    ))}
-                                </div>
                             </div>
                         </div>
                     </>
