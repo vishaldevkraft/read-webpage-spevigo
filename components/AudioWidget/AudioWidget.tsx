@@ -205,41 +205,40 @@ export default function AudioWidget() {
                 {showPlayerUI && (
                     <>
                         {/* sections */}
-                        {sectionIndex && (
-                            <div className="relative">
-                                <button
-                                    onClick={() => setShowSections(!showSections)}
-                                    className="border border-[#B7B6B2] w-full p-2 text-left flex justify-between items-start gap-2 bg-white"
-                                >
-                                    <div className="flex-1 min-w-0">
-                                        <div className="text-xs text-gray-600 mb-1">
-                                            Section {getCurrentSectionIndex() + 1} of {sections.length}
-                                        </div>
-                                        <div className="text-sm font-medium truncate text-gray-900">{currentSection}</div>
+                        <div className="relative">
+                            <button
+                                onClick={() => !isHighlightPlaying && setShowSections(!showSections)}
+                                disabled={isHighlightPlaying}
+                                className="border border-[#B7B6B2] w-full p-2 text-left flex justify-between items-start gap-2 bg-white disabled:opacity-50 disabled:cursor-not-allowed"
+                            >
+                                <div className="flex-1 min-w-0">
+                                    <div className="text-xs text-gray-600 mb-1">
+                                        Section {getCurrentSectionIndex() + 1} of {sections.length}
                                     </div>
-                                    <span className="shrink-0 mt-1">▾</span>
-                                </button>
+                                    <div className="text-sm font-medium truncate text-gray-900">{currentSection}</div>
+                                </div>
+                                <span className="shrink-0 mt-1">▾</span>
+                            </button>
 
-                                {showSections && (
-                                    <div className="absolute top-full left-0 right-0 mt-1 border rounded bg-white shadow-lg max-h-36 overflow-auto z-10">
-                                        {sections.map((s, index) => (
-                                            <div
-                                                key={s.title}
-                                                onClick={() => jumpTo(s.start, s.title)}
-                                                className="p-2 hover:bg-gray-100 cursor-pointer text-xs"
-                                            >
-                                                <div className="flex justify-between items-start gap-2">
-                                                    <span className="flex-1 min-w-0 break-words text-gray-900">{s.title}</span>
-                                                    <span className="text-xs text-gray-500 shrink-0">
-                                                        {format(s.start)}
-                                                    </span>
-                                                </div>
+                            {showSections && (
+                                <div className="absolute top-full left-0 right-0 mt-1 border rounded bg-white shadow-lg max-h-36 overflow-auto z-10">
+                                    {sections.map((s, index) => (
+                                        <div
+                                            key={s.title}
+                                            onClick={() => jumpTo(s.start, s.title)}
+                                            className="p-2 hover:bg-gray-100 cursor-pointer text-xs"
+                                        >
+                                            <div className="flex justify-between items-start gap-2">
+                                                <span className="flex-1 min-w-0 break-words text-gray-900">{s.title}</span>
+                                                <span className="text-xs text-gray-500 shrink-0">
+                                                    {format(s.start)}
+                                                </span>
                                             </div>
-                                        ))}
-                                    </div>
-                                )}
-                            </div>
-                        )}
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
+                        </div>
                         {/* progress */}
                         <div>
                             <div className="w-full h-2 bg-gray-200 rounded-full overflow-hidden relative">
@@ -268,13 +267,13 @@ export default function AudioWidget() {
                         {/* controls */}
                         <div className="flex justify-center items-center gap-3">
                             {/* Previous button */}
-                            {!isHighlightPlaying && <button
+                            <button
                                 onClick={goToPreviousSection}
-                                className="w-9 h-9 rounded-full hover:bg-gray-200 flex items-center justify-center transition-colors"
+                                disabled={isHighlightPlaying}
+                                className="w-9 h-9 rounded-full hover:bg-gray-200 flex items-center justify-center transition-colors disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-transparent"
                             >
-
                                 <PlayerPrevious height={15} width={15} />
-                            </button>}
+                            </button>
                             {/* Play button  */}
                             <button
                                 onClick={togglePlayback}
@@ -287,12 +286,13 @@ export default function AudioWidget() {
                                 )}
                             </button>
                             {/* Next button */}
-                            {!isHighlightPlaying && <button
+                            <button
                                 onClick={goToNextSection}
-                                className="w-9 h-9 rounded-full hover:bg-gray-200 flex items-center justify-center transition-colors"
+                                disabled={isHighlightPlaying}
+                                className="w-9 h-9 rounded-full hover:bg-gray-200 flex items-center justify-center transition-colors disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-transparent"
                             >
                                 <PlayerNext height={15} width={15} />
-                            </button>}
+                            </button>
                         </div>
 
 
@@ -313,7 +313,7 @@ export default function AudioWidget() {
                                                 onClick={() => changeSpeed(r)}
                                                 className={`flex-1 cursor-pointer text-xs font-sm transition-colors justify-center py-0.5 px-1 ${speed === r
                                                     ? "bg-[#00E47C]  mx-0.5"
-                                                    : " text-black "
+                                                    : " text-[#08312A] "
                                                     }`}
                                             >
                                                 {r.toFixed(1)}x
@@ -323,7 +323,7 @@ export default function AudioWidget() {
                                         /* Collapsed: show only selected speed */
                                         <button
                                             onClick={() => setShowSpeedOptions(true)}
-                                            className="px-2 h-full text-xs font-sm border border-gray-200 bg-[#E5E3DE] text-black hover:bg-[#E5E3DE] cursor-pointer transition-colors"
+                                            className="px-2 h-full text-xs font-sm border border-gray-200 bg-[#E5E3DE] text-[#08312A] hover:bg-[#E5E3DE] cursor-pointer transition-colors"
                                         >
                                             {speed.toFixed(1)}x
                                         </button>
