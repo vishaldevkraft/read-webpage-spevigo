@@ -6,6 +6,7 @@ import { PlayerNext } from "@/public/PlayerNext";
 import { PlayerPause } from "@/public/PlayerPause";
 import { PlayerPlay } from "@/public/PlayerPlay";
 import { PlayerPrevious } from "@/public/PlayerPrevious";
+import { SectionDropDown } from "@/public/SectionDropDown";
 import { AudioLines, CirclePause, CirclePlay } from "lucide-react";
 import { useRef, useState, useEffect } from "react";
 
@@ -209,7 +210,7 @@ export default function AudioWidget() {
                             <button
                                 onClick={() => !isHighlightPlaying && setShowSections(!showSections)}
                                 disabled={isHighlightPlaying}
-                                className="border border-[#B7B6B2] w-full p-2 text-left flex justify-between items-start gap-2 bg-white disabled:opacity-50 disabled:cursor-not-allowed"
+                                className="border border-[#B7B6B2] w-full p-3 text-left flex justify-between items-start gap-2 bg-white disabled:opacity-50 disabled:cursor-not-allowed"
                             >
                                 <div className="flex-1 min-w-0">
                                     <div className="text-xs text-gray-600 mb-1">
@@ -217,7 +218,7 @@ export default function AudioWidget() {
                                     </div>
                                     <div className="text-sm font-medium truncate text-gray-900">{currentSection}</div>
                                 </div>
-                                <span className="shrink-0 mt-1">▾</span>
+                                <SectionDropDown height={6} width={10} className="self-start mt-1 shrink-0" />
                             </button>
 
                             {showSections && (
